@@ -43,6 +43,19 @@ class BugsController < ApplicationController
     redirect_to project_bugs_url(@bug.project_id), notice: 'Bug was successfully destroyed.'
   end
 
+  def mark_resolved
+    @bug = Bug.find(params[:bug_id])
+    @bug.update(status: :resolved)
+    redirect_to project_bugs_path(@bug.project_id), notice: 'Bug was successfully updated.'
+  end
+
+  def assign_developer
+    @bug = Bug.find(params[:bug_id])
+    @bug.update(developer_id: current_user.id)
+    redirect_to project_bugs_path(@bug.project_id), notice: 'Bug was successfully updated.'
+  end
+
+
   private
 
   def set_bug
