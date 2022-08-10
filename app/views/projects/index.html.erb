@@ -15,8 +15,11 @@
       <tr>
         <td><%= project.name %></td>
         <td><%= link_to 'Show', project %></td>
-        <td><%= link_to 'Edit', edit_project_path(project) %></td>
-        <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% if current_user.user_type == 'manager' %>
+            <td><%= link_to 'Edit', edit_project_path(project) %></td>
+            <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <td><%= link_to 'Add Developer', project_add_developer_qa_path(project) %></td>
+          <%end%>
       </tr>
     <% end %>
   </tbody>

@@ -1,0 +1,48 @@
+<h1>Developers</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @developer_in_project.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= link_to 'Remove', project_remove_user_path(@project, user)%></td>   
+     </tr>
+    <%end%>
+     <% @developer_not_in_project.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= link_to 'ADD',  project_add_user_path(@project, user)   %></td>   
+     </tr>
+    <%end%>
+  </tbody>
+</table>
+<h1>Qa</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @qa_in_project.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= link_to 'Remove', project_remove_from_project_path(@project, user)%></td>   
+     </tr>
+    <%end%>
+     <% @qa_not_in_project.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= link_to 'ADD',  project_add_in_project_path(@project, user)   %></td>   
+     </tr>
+    <%end%>
+  </tbody>
+</table>
