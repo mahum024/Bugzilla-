@@ -1,8 +1,16 @@
+<p id="notice"><%= notice %></p>
 
-
+<p>
+  <strong>ID:</strong>
+  <%= @bug.id %>
+</p>
 <p>
   <strong>Title:</strong>
   <%= @bug.title %>
+</p>
+<p>
+  <strong>Description:</strong>
+  <%= @bug.description %>
 </p>
 
 <p>
@@ -11,19 +19,34 @@
 </p>
 
 <p>
-  <strong>Status:</strong>
-  <%= @bug.status %>
-</p>
-
-<p>
   <strong>Type of bug:</strong>
   <%= @bug.type_of_bug %>
 </p>
 
 <p>
-  <strong>Description:</strong>
-  <%= @bug.description %>
+  <strong>Status:</strong>
+  <%= @bug.status %>
+</p>
+
+<p>
+  <strong>Creator:</strong>
+  <%= @bug.creator_id %>
+</p>
+
+<p>
+  <strong>Developer:</strong>
+  <%= @bug.developer_id %>
+</p>
+
+<p>
+  <strong>Project:</strong>
+  <%= @bug.project_id %>
+</p>
+
+<p>
+  <strong>ScreenShot:</strong>
+  <%= image_tag(@bug.screenshot)  if @bug.screenshot.attached?  %>
 </p>
 
 <%= link_to 'Edit', edit_bug_path(@bug) %> |
-<%= link_to 'Back', bugs_path %>
+<%= link_to 'Back', project_bugs_path(@bug.project_id) %>

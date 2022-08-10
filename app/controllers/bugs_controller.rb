@@ -4,7 +4,8 @@ class BugsController < ApplicationController
   before_action :set_bug, only: %i[show edit update destroy]
 
   def index
-    @bugs = Bug.all
+    @project = Project.find(params[:project_id])
+    @bugs = @project.bugs
   end
 
   def show; end
@@ -39,8 +40,7 @@ class BugsController < ApplicationController
 
   def destroy
     @bug.destroy
-
-    redirect_to bugs_url, notice: 'Bug was successfully destroyed.'
+    redirect_to project_bugs_url(@bug.project_id), notice: 'Bug was successfully destroyed.'
   end
 
   private
@@ -50,6 +50,7 @@ class BugsController < ApplicationController
   end
 
   def bug_params
-    params.require(:bug).permit(:title, :deadline, :status, :type_of_bug, :description)
+    params.require(:bug).permit(:title, :description, :deadline, :type_of_bug, :status, :creator_id, :developer_id,
+                                :project_id, :screenshot)
   end
 end
