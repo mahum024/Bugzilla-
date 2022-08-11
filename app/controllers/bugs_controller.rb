@@ -11,12 +11,16 @@ class BugsController < ApplicationController
   def show; end
 
   def new
+    authorize Bug
     @bug = Bug.new
   end
 
-  def edit; end
+  def edit
+    authorize Bug
+  end
 
   def create
+    authorize Bug
     @bug = Bug.new(bug_params)
 
     if @bug.save
@@ -39,6 +43,7 @@ class BugsController < ApplicationController
   end
 
   def destroy
+    authorize Bug
     @bug.destroy
     redirect_to project_bugs_url(@bug.project_id), notice: 'Bug was successfully destroyed.'
   end

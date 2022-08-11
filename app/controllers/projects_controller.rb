@@ -17,12 +17,16 @@ class ProjectsController < ApplicationController
   def show; end
 
   def new
+    authorize Project
     @project = Project.new
   end
 
-  def edit; end
+  def edit
+    authorize Project
+  end
 
   def create
+    authorize Project
     @project = Project.new(project_params)
 
     if @project.save
@@ -42,11 +46,13 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
+    authorize Project
     @project.destroy
     redirect_to projects_url, notice: 'Project was successfully destroyed.'
   end
 
   def add_developer_qa
+    authorize Project
     @project = Project.find(params[:project_id])
     @developer_in_project = @project.users.reload.where(user_type: :developer)
     @developer_not_in_project = User.where(user_type: :developer) - @developer_in_project
@@ -54,8 +60,8 @@ class ProjectsController < ApplicationController
     @qa_not_in_project = User.where(user_type: :qa) - @qa_in_project
   end
 
-  
   def add
+    authorize Project
     @project = Project.find(params[:project_id])
     @user = User.find(params[:id])
     @project.users << @user
@@ -63,6 +69,7 @@ class ProjectsController < ApplicationController
   end
 
   def remove
+    authorize Project
     @project = Project.find(params[:project_id])
     @user = User.find(params[:id])
     @project.users.delete(@user)
