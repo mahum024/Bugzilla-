@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>ID:</strong>
   <%= @bug.id %>
@@ -45,8 +43,9 @@
 
 <p>
   <strong>ScreenShot:</strong>
-  <%= image_tag(@bug.screenshot)  if @bug.screenshot.attached?  %>
+  <%= image_tag(@bug.screenshot, class: 'rounded-circle', size:'50x50') if @bug.screenshot.attached? %>
 </p>
-
-<%= link_to 'Edit', edit_bug_path(@bug) %> |
+<% if current_user.user_type == 'qa' %>
+<%= link_to 'Edit', edit_bug_path(@bug) %> | 
+<% end %>
 <%= link_to 'Back', project_bugs_path(@bug.project_id) %>

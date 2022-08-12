@@ -1,7 +1,7 @@
 <% if current_user %>
 
     <% if current_user.user_type == 'manager' %>
-     <%= render 'manager' %>
+     <%= render 'Projects_path' %>
     <% elsif current_user.user_type == 'developer'%>
       <%= render 'developer' %>
     <% elsif current_user.user_type == 'qa'%>

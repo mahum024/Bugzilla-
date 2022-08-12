@@ -1,11 +1,10 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Bugs</h1>
 
-<table>
-  <thead>
+<table class="table table-striped table-bordered table-hover table-responsive ">
+  <thead class="table-dark">
     <tr>
       <th>Title</th>
+      <th>Description</th>
       <th>Deadline</th>
       <th>Type of bug</th>
       <th>Status</th>
@@ -28,23 +27,28 @@
         <td><%= bug.creator_id %></td>
         <td><%= bug.developer_id %></td>
         <td><%= bug.project_id %></td>
-        
-        <td ><%= image_tag(bug.screenshot)if bug.screenshot.attached? %></td>
+        <td ><%= image_tag(bug.screenshot, class: 'rounded-circle', size:'50x50') if bug.screenshot.attached? %></td>
         <td><%= link_to 'Show', bug %></td>
 
 
-       <% if current_user.user_type == 'developer' %>
+        <% if current_user.user_type == 'developer' %>
          <% if bug.status == "started" || bug.status == "new_bug"%>
            <% if  bug.developer_id.nil? %>
               <td><%= link_to 'Assign Bug to Yourself',  bug_assign_developer_path(bug)  %> </td>
            <% end %>
            <% if bug.developer_id == current_user.id %>
-              <td><%= link_to 'Mark Resolves',  bug_mark_resolved_path(bug)  %> </td>
+              <% if bug.type_of_bug == 'bug'%>
+                <td><%= link_to 'Mark bug Resolved',  bug_mark_resolved_path(bug, :type => 'bug')  %> </td>
+              <% else %>
+                <td><%= link_to 'Mark feature Completed',  bug_mark_resolved_path(bug, :type => 'feature')  %> </td>
+              <% end %>
            <% end %>
-         <%elsif bug.status == "resolved"%>
-            <td>   <h4>resolved</h4> </td>
+          <%elsif bug.status == "resolved"%>
+            <td><h4>Resolved</h4> </td>
+          <%elsif bug.status == "completed"%>
+            <td><h4>Completed</h4> </td>
          <%end %>
-       <% end %>
+       <% end %>  
 
         <% if current_user.user_type != 'developer' %>
           <td><%= link_to 'Edit', edit_bug_path(bug) %></td>
@@ -56,5 +60,8 @@
 </table>
 
 <br>
+<% if current_user.user_type == 'qa' %>
+  <%= link_to 'Report another Bug', new_project_bug_path %>
+<% end %>
+<%= link_to 'Back', projects_path %>
 
-<%= link_to 'New Bug', new_project_bug_path %>

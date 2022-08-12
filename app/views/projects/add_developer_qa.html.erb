@@ -1,20 +1,12 @@
-<h1>Assign the Project to a developer</h1>
+<h1>Assign or Remove Developer and QAs from the Project</h1>
+<br>
 
+<h1>Developers</h1>
+<%= render 'assign', in_project: true, user: @developer_in_project %>
+<%= render 'assign', in_project: false, user: @developer_not_in_project %>
 
+<h1>Qa</h1>
+<%= render 'assign', in_project: true, user: @qa_in_project %>
+<%= render 'assign', in_project: false, user: @qa_not_in_project %>
 
-
-
-
-
-
-
-
-
-
-
-
-
-<%= render 'assign', project: @project %>
-
-<%= link_to 'Show', @project %> |
 <%= link_to 'Back', projects_path %>
