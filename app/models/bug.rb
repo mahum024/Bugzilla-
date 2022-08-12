@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Bug < ApplicationRecord
-  belongs_to :creator, class_name: 'user', foreign_key: 'creator_id', optional: true
-  belongs_to :developer, class_name: 'user', foreign_key: 'developer_id', optional: true
+  belongs_to :creator, class_name: 'user', optional: true
+  belongs_to :developer, class_name: 'user', optional: true
   belongs_to :project
   has_one_attached :screenshot
 
@@ -11,7 +11,7 @@ class Bug < ApplicationRecord
 
   validates :title, :deadline, :type_of_bug, :status, :creator_id, :project_id, presence: true
   validates_associated :project
-  validates_uniqueness_of :title, scope: :project_id
+  validates :title, uniqueness: { scope: :project_id }
   validates :type_of_bug, inclusion: { in: type_of_bugs.keys }
   validates :status, inclusion: { in: statuses.keys }
   validate :screen_shot_type

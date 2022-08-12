@@ -34,7 +34,7 @@ class BugsController < ApplicationController
 
   def update
     if @bug.update(bug_params)
-      redirect_to bug_url(@bug), notice: 'Bug was successfully updated.'
+      redirect_to bug_url(@bug), notice: 'Bug successfully updated.'
 
     else
       render :edit, status: :unprocessable_entity
@@ -45,7 +45,7 @@ class BugsController < ApplicationController
   def destroy
     authorize Bug
     @bug.destroy
-    redirect_to project_bugs_url(@bug.project_id), notice: 'Bug was successfully destroyed.'
+    redirect_to project_bugs_url(@bug.project_id), notice: 'Bug successfully destroyed.'
   end
 
   def mark_resolved
@@ -61,7 +61,7 @@ class BugsController < ApplicationController
   def assign_developer
     @bug = Bug.find(params[:bug_id])
     @bug.update(developer_id: current_user.id)
-    redirect_to project_bugs_path(@bug.project_id), notice: 'Bug was successfully updated.'
+    redirect_to project_bugs_path(@bug.project_id), notice: 'Bug assigned to you successfully'
   end
 
   private
