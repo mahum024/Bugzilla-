@@ -1,0 +1,29 @@
+
+
+<p>
+  <strong>Title:</strong>
+  <%= @bug.title %>
+</p>
+
+<p>
+  <strong>Deadline:</strong>
+  <%= @bug.deadline %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @bug.status %>
+</p>
+
+<p>
+  <strong>Type of bug:</strong>
+  <%= @bug.type_of_bug %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @bug.description %>
+</p>
+
+<%= link_to 'Edit', edit_bug_path(@bug) %> |
+<%= link_to 'Back', bugs_path %>
