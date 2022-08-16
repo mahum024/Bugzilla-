@@ -2,12 +2,13 @@
 
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[show edit update destroy]
+  before_action :set_project_change, only: %i[add remove add_developer_qa]
+  before_action :set_user, only: %i[add remove]
+  before_action :authorize_action, only: %i[new edit create destroy add_developer_qa add remove]
 
   def index
     case current_user.user_type
-    when 'manager'
-      @projects = current_user.projects
-    when 'developer'
+    when 'manager', 'developer'
       @projects = current_user.projects
     when 'qa'
       @projects = Project.all
@@ -17,16 +18,12 @@ class ProjectsController < ApplicationController
   def show; end
 
   def new
-    authorize Project
     @project = Project.new
   end
 
-  def edit
-    authorize Project
-  end
+  def edit; end
 
   def create
-    authorize Project
     @project = Project.new(project_params)
 
     if @project.save
@@ -46,14 +43,14 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    authorize Project
-    @project.destroy
-    redirect_to projects_url, notice: 'Project was successfully destroyed.'
+    if @project.destroy
+      redirect_to projects_url, notice: 'Project was successfully destroyed.'
+    else
+      render :index, notice: 'Project not destroyed.'
+    end
   end
 
   def add_developer_qa
-    authorize Project
-    @project = Project.find(params[:project_id])
     @developer_in_project = @project.users.reload.where(user_type: :developer)
     @developer_not_in_project = User.where(user_type: :developer) - @developer_in_project
     @qa_in_project = @project.users.reload.where(user_type: :qa)
@@ -61,22 +58,24 @@ class ProjectsController < ApplicationController
   end
 
   def add
-    authorize Project
-    @project = Project.find(params[:project_id])
-    @user = User.find(params[:id])
     @project.users << @user
     redirect_to project_add_developer_qa_path(@project)
   end
 
   def remove
-    authorize Project
-    @project = Project.find(params[:project_id])
-    @user = User.find(params[:id])
     @project.users.delete(@user)
     redirect_to project_add_developer_qa_path(@project)
   end
 
   private
+
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  def set_project_change
+    @project = Project.find(params[:project_id])
+  end
 
   def set_project
     @project = Project.find(params[:id])
@@ -84,5 +83,9 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit(:name)
+  end
+
+  def authorize_action
+    authorize Project
   end
 end
