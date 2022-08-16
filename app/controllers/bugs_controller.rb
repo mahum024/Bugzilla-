@@ -55,7 +55,6 @@ class BugsController < ApplicationController
     redirect_to project_bugs_path(@bug.project_id), notice: 'Bug was successfully updated.'
   end
 
-
   private
 
   def set_bug
