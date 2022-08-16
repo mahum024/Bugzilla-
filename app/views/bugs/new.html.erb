@@ -2,4 +2,4 @@
 
 <%= render 'form', bug: @bug %>
 
-<%= link_to 'Back', bugs_path %>
+<%= link_to 'Back', project_bugs_path(params[:project_id]) %>

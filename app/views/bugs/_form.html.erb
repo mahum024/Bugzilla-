@@ -1,4 +1,4 @@
-<%= form_with(model: bug, local: true) do |form| %>
+<%= form_with(model: bug ) do |form| %>
   <% if bug.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(bug.errors.count, "error") %> prohibited this bug from being saved:</h2>
@@ -16,25 +16,35 @@
     <%= form.text_field :title %>
   </div>
 
+ <div class="field">
+    <%= form.label :Description %>
+    <%= form.text_field :description %>
+  </div>
+
   <div class="field">
     <%= form.label :deadline %>
     <%= form.date_select :deadline %>
   </div>
 
   <div class="field">
-    <%= form.label :status %>
-    <%= form.number_field :status %>
-  </div>
-
-  <div class="field">
     <%= form.label :type_of_bug %>
-    <%= form.number_field :type_of_bug %>
+    <%= form.select :type_of_bug , options_for_select(Bug.type_of_bugs.map {|key, value| [key.titleize, Bug.type_of_bugs.key(value)]}, :type_of_bug) %>
   </div>
 
   <div class="field">
-    <%= form.label :description %>
-    <%= form.text_field :description %>
+    <%= form.hidden_field :status, value: :new_bug%>
+    <%= form.hidden_field :creator_id, value: current_user.id %>
+    <%= form.hidden_field :project_id, value: params[:project_id] %>
   </div>
+
+ <div class="field">
+    <% if bug.screenshot.attached? %>
+      <%= image_tag bug.screenshot, style: "width:100px height:50px, display: block" %>
+    <% end %>
+    <%= form.label :screenshot %>
+    <%= form.file_field :screenshot %>
+  </div>
+
 
   <div class="actions">
     <%= form.submit %>

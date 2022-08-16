@@ -35,13 +35,13 @@
     <% @qa_in_project.each do |user| %>
       <tr>
         <td><%= user.name %></td>
-        <td><%= link_to 'Remove', project_remove_from_project_path(@project, user)%></td>   
+        <td><%= link_to 'Remove', project_remove_user_path(@project, user)%></td>   
      </tr>
     <%end%>
      <% @qa_not_in_project.each do |user| %>
       <tr>
         <td><%= user.name %></td>
-        <td><%= link_to 'ADD',  project_add_in_project_path(@project, user)   %></td>   
+        <td><%= link_to 'ADD',  project_add_user_path(@project, user)   %></td>   
      </tr>
     <%end%>
   </tbody>
