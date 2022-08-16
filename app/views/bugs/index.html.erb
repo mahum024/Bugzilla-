@@ -33,14 +33,22 @@
         <td><%= link_to 'Show', bug %></td>
 
 
-       
+       <% if current_user.user_type == 'developer' %>
+         <% if bug.status == "started" || bug.status == "new_bug"%>
+           <% if  bug.developer_id.nil? %>
+              <td><%= link_to 'Assign Bug to Yourself',  bug_assign_developer_path(bug)  %> </td>
+           <% end %>
+           <% if bug.developer_id == current_user.id %>
+              <td><%= link_to 'Mark Resolves',  bug_mark_resolved_path(bug)  %> </td>
+           <% end %>
+         <%elsif bug.status == "resolved"%>
+            <td>   <h4>resolved</h4> </td>
+         <%end %>
+       <% end %>
 
-
-        
         <% if current_user.user_type != 'developer' %>
-        <td><%= link_to 'Edit', edit_bug_path(bug) %></td>
-        
-        <td><%= link_to 'Destroy', bug, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to 'Edit', edit_bug_path(bug) %></td>
+          <td><%= link_to 'Destroy', bug, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <%end%>
       </tr>
     <% end %>
