@@ -43,8 +43,11 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    @project.destroy
-    redirect_to projects_url, notice: 'Project was successfully destroyed.'
+    if @project.destroy
+      redirect_to projects_url, notice: 'Project was successfully destroyed.'
+    else
+      render :index, notice: 'Project not destroyed.'
+    end
   end
 
   def add_developer_qa
