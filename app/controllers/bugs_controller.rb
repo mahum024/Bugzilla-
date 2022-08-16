@@ -50,8 +50,12 @@ class BugsController < ApplicationController
 
   def mark_resolved
     @bug = Bug.find(params[:bug_id])
-    @bug.update(status: :resolved)
-    redirect_to project_bugs_path(@bug.project_id), notice: 'Bug was successfully updated.'
+    if params[:type] == 'bug'
+      @bug.update(status: :resolved)
+    else
+      @bug.update(status: :completed)
+    end
+    redirect_to project_bugs_path(@bug.project_id), notice: 'Bug successfully updated.'
   end
 
   def assign_developer
