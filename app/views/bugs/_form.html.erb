@@ -61,12 +61,11 @@
      status.remove(2)
      option = document.createElement('option');
 
-    if(this.value==='bug'){  
+    if (this.value==='bug') {  
       option.setAttribute('value', "resolved");
       option.appendChild(document.createTextNode("resolved"));
       status.add(option);
-    }
-    else{
+    } else {
       option.setAttribute('value', "completed");
       option.appendChild(document.createTextNode("completed"));
       status.add(option);
