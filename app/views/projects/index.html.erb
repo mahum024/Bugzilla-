@@ -1,6 +1,6 @@
 <div class="SignOut text-center ">
   <%= link_to 'Sign Out' , destroy_user_session_path, method: :delete ,class:"btn btn-danger  font-weight-bold  btn-lg" %>
-  </div>
+</div>
 
     <% if current_user.user_type == 'manager' %>
       <div class="text-center NewProject "> <%= link_to 'New Project', new_project_path ,class:"btn btn-lg btn-secondary my-5"   %></div>

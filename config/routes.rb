@@ -13,10 +13,10 @@ Rails.application.routes.draw do
   end
  
   resources :projects do
-    resources :bugs, shallow: true
+    resources :bugs, only: %i[new index create]
     get 'add_developer_qa'
-    match 'add/:user_id' => 'projects#add', :as => 'add_user', via: %i[get patch]
-    match 'remove/:user_id' => 'projects#remove', :as => 'remove_user', via: %i[get patch]
+    match 'add/:user_id' => 'projects#add', :as => 'add_user', via: %i[patch]
+    match 'remove/:user_id' => 'projects#remove', :as => 'remove_user', via: %i[ patch]
   end
   resources :bugs, except: %i[new index create] do
     match 'mark_resolved' => 'bugs#mark_resolved', :as => 'mark_resolved', via: %i[get patch]

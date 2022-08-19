@@ -19,7 +19,7 @@ module BugsHelper
                                                                                                   id: "BugNo-#{bug.id}"
           else
             html += link_to 'Mark feature Completed', bug_mark_resolved_path(bug, status: 'completed'), remote: true,
-                                                                                                  id: "BugNo-#{bug.id}"
+                                                                                                        id: "BugNo-#{bug.id}"
           end
         end
 

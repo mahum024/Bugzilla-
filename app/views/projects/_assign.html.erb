@@ -5,9 +5,9 @@
       <tr>
         <td><%= user.name %></td>
         <% if in_project %>
-          <td><%= link_to 'Remove', project_remove_user_path(@project, user), remote: true %></td>   
+          <td><%= link_to 'Remove', project_remove_user_path(@project, user),method: :patch, remote: true %></td>   
         <% else %>
-          <td><%= link_to 'Add', project_add_user_path(@project, user), id: "Project-#{@project.id}", remote: true %></td>  
+          <td><%= link_to 'Add', project_add_user_path(@project, user), method: :patch ,id: "Project-#{@project.id}", remote: true %></td>  
         <% end %>
       </tr>
     <%end%>

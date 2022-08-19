@@ -3,11 +3,10 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[show edit update destroy add remove add_developer_qa]
   before_action :set_user, only: %i[add remove]
-  before_action :authorize_action, only: %i[new edit show create destroy add_developer_qa add remove]
+  before_action :authorize_action, only: %i[new edit create destroy add_developer_qa add remove]
   before_action :user_data, only: %i[add remove add_developer_qa]
 
   def index
-
     case current_user.user_type
     when 'manager', 'developer'
       @projects = current_user.projects
@@ -50,7 +49,6 @@ class ProjectsController < ApplicationController
   end
 
   def update
-
     if @project.update(project_params)
       redirect_to project_url(@project), notice: 'Project was successfully updated.'
     else
@@ -59,7 +57,6 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-
     if @project.destroy
       redirect_to projects_url, notice: 'Project was successfully destroyed.'
     else
@@ -71,7 +68,7 @@ class ProjectsController < ApplicationController
 
   def add
     @project.users << @user unless @project.users.include? @user
-    
+
     respond_to do |format|
       format.html { redirect_to project_add_developer_qa_path(@project) }
       format.js
