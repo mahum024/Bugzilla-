@@ -1,0 +1,11 @@
+<h1 class="my-5">Developers</h1>
+<h2 class="my-2">Names</h2>
+
+<%= render 'assign', in_project: true, user: @developer_in_project %>
+<%= render 'assign', in_project: false, user: @developer_not_in_project %>
+
+<h1 class="my-5">Qa</h1>
+<h2 class="my-2">Names</h2>
+
+<%= render 'assign', in_project: true, user: @qa_in_project %>
+<%= render 'assign', in_project: false, user: @qa_not_in_project %>

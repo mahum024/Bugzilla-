@@ -1,6 +1,9 @@
-<h1>Editing Bug</h1>
+<div> 
+    <h1>Editing Bug</h1>
 
-<%= render 'form', bug: @bug %>
-
-<%= link_to 'Show', @bug %> |
-<%= link_to 'Back', projects_path %>
+    <%= render  'form', bug: @bug , project: @project %>
+    <%= link_to 'Show', @bug %> |
+    <div class= "btn btn-primary"> 
+        <%= link_to 'Back', projects_path %>
+    </div>
+</div>

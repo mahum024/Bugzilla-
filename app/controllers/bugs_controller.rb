@@ -2,9 +2,10 @@
 
 class BugsController < ApplicationController
   before_action :set_bug, only: %i[show edit update destroy]
+  before_action :set_project, only: %i[index new create]
   before_action :authorize_action, only: %i[new edit create destroy mark_resolved assign_developer]
+  
   def index
-    @project = Project.find(params[:project_id])
     @bugs = @project.bugs
   end
 
@@ -27,6 +28,7 @@ class BugsController < ApplicationController
   end
 
   def update
+
     if @bug.update(bug_params)
       redirect_to bug_url(@bug), notice: 'Bug successfully updated.'
     else
@@ -35,6 +37,7 @@ class BugsController < ApplicationController
   end
 
   def destroy
+
     if @bug.destroy
       redirect_to project_bugs_url(@bug.project_id), notice: 'Bug successfully destroyed.'
     else
@@ -44,24 +47,32 @@ class BugsController < ApplicationController
 
   def mark_resolved
     @bug = Bug.find(params[:bug_id])
-    if params[:type] == 'bug'
-      @bug.update(status: :resolved)
-    else
-      @bug.update(status: :completed)
+    @bug.update(status: params[:status])
+
+    respond_to do |format|
+      format.html { redirect_to project_bugs_path(@bug.project_id), notice: 'Bug successfully updated.' }
+      format.js
     end
-    redirect_to project_bugs_path(@bug.project_id), notice: 'Bug successfully updated.'
   end
 
   def assign_developer
     @bug = Bug.find(params[:bug_id])
     @bug.update(developer_id: current_user.id)
-    redirect_to project_bugs_path(@bug.project_id), notice: 'Bug assigned to you successfully'
+    
+    respond_to do |format|
+      format.html { redirect_to project_bugs_path(@bug.project_id), notice: 'Bug assigned to you successfully' }
+      format.js
+    end
   end
 
   private
 
   def set_bug
     @bug = Bug.find(params[:id])
+  end
+
+  def set_project
+    @project = Project.find(params[:project_id])
   end
 
   def authorize_action

@@ -1,67 +1,33 @@
-<h1>Bugs</h1>
+<div class="mx-5 my-5">
 
-<table class="table table-striped table-bordered table-hover table-responsive ">
-  <thead class="table-dark">
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Deadline</th>
-      <th>Type of bug</th>
-      <th>Status</th>
-      <th>Creator</th>
-      <th>Developer</th>
-      <th>Project</th>
-      <th>ScreenShot</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+  <h1>Bugs</h1>
 
-  <tbody>
-    <% @bugs.each do |bug| %>
+  <table class="text-center table table-bordered BugsTable" >
+    <thead>
       <tr>
-        <td><%= bug.title %></td>
-        <td><%= bug.description %></td>
-        <td><%= bug.deadline %></td>
-        <td><%= bug.type_of_bug %></td>
-        <td><%= bug.status %></td>
-        <td><%= bug.creator_id %></td>
-        <td><%= bug.developer_id %></td>
-        <td><%= bug.project_id %></td>
-        <td ><%= image_tag(bug.screenshot, class: 'rounded-circle', size:'50x50') if bug.screenshot.attached? %></td>
-        <td><%= link_to 'Show', bug %></td>
-
-
-        <% if current_user.user_type == 'developer' %>
-         <% if bug.status == "started" || bug.status == "new_bug"%>
-           <% if  bug.developer_id.nil? %>
-              <td><%= link_to 'Assign Bug to Yourself',  bug_assign_developer_path(bug)  %> </td>
-           <% end %>
-           <% if bug.developer_id == current_user.id %>
-              <% if bug.type_of_bug == 'bug'%>
-                <td><%= link_to 'Mark bug Resolved',  bug_mark_resolved_path(bug, :type => 'bug')  %> </td>
-              <% else %>
-                <td><%= link_to 'Mark feature Completed',  bug_mark_resolved_path(bug, :type => 'feature')  %> </td>
-              <% end %>
-           <% end %>
-          <%elsif bug.status == "resolved"%>
-            <td><h4>Resolved</h4> </td>
-          <%elsif bug.status == "completed"%>
-            <td><h4>Completed</h4> </td>
-         <%end %>
-       <% end %>  
-
-        <% if current_user.user_type != 'developer' %>
-          <td><%= link_to 'Edit', edit_bug_path(bug) %></td>
-          <td><%= link_to 'Destroy', bug, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <%end%>
+        <th>Title</th>
+        <th>Deadline</th>
+        <th>Type of bug</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
-<% if current_user.user_type == 'qa' %>
-  <%= link_to 'Report another Bug', new_project_bug_path %>
-<% end %>
-<%= link_to 'Back', projects_path %>
+    <tbody>
+      <% @bugs.each do |bug| %>
+        <tr class="my-5">
+          <td><%= bug.title %></td>
+          <td><%= bug.deadline %></td>
+          <td><%= bug.type_of_bug %></td>
+          
+          <td><%= link_to 'Show', bug %></td>
+          <td><%= render 'index_links', bug: bug %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
+  <br>
+
+  <td><%= report_another_bug %> </td> 
+  <%= link_to 'Back', projects_path %>
+
+</div>

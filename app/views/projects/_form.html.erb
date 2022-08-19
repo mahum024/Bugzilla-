@@ -1,24 +1,33 @@
-<%= form_with(model: project, local: true) do |form| %>
-  <% if project.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h2>
+<div class="ProjectForm">
+  <%= form_with(model: project, local: true) do |form| %>
+    <% if project.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h2>
 
-      <ul>
-      <% project.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+        <ul>
+          <% project.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field form-group my-5 ">
+      <%= form.label :name %>
+      <%= form.text_field :name, required: true %>
+    </div>
+
+    <h2>Select developers</h2>
+
+    <div class="field form-group my-5 text-center">
+      <%= form.select(:u_id, User.all.where.not(user_type: :manager ).collect {|p| [ p.name, p.id ] }, 
+                                                      { :prompt => ""}, 
+                                                      { :multiple => true, :size => 5  }) %>
+    </div>
+    
+    <div class="actions text-center ">
+      <%= form.submit %>
     </div>
   <% end %>
-
-  <div class="field form-group">
-    <%= form.label :name %>
-    <%= form.text_field :name, required: true %>
-  </div>
-
-  <div class="actions ">
-    <%= form.submit %>
-  </div>
-<% end %>
-
+</div>
 

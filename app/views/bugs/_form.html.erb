@@ -1,76 +1,64 @@
-<%= form_with(model: bug ) do |form| %>
+
+<%= form_with(model: [project, bug], local: true ) do |form| %>
+
   <% if bug.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(bug.errors.count, "error") %> prohibited this bug from being saved:</h2>
 
       <ul>
-      <% bug.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% bug.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="field my-5">
     <%= form.label :title %>
-    <%= form.text_field :title,required: true %>
+    <%= form.text_field :title, required: true %>
+    <ul>
+      <% bug.errors[:title].each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
   </div>
 
- <div class="field">
-    <%= form.label :Description %>
+  <div class="field my-5">
+    <%= form.label :description %>
     <%= form.text_field :description %>
   </div>
 
-  <div class="field">
+  <div class="field my-5">
     <%= form.label :deadline %>
-    <%= form.date_select :deadline,required: true %>
+    <%= form.date_select :deadline, required: true %>
   </div>
 
-  <div class="field">
+  <div class="field my-5">
     <%= form.label :type_of_bug %>
-    <%= form.select :type_of_bug , options_for_select(Constants::BUG_TYPE) %>
+    <%= form.select :type_of_bug, options_for_select(Constants::BUG_TYPE) %>
   </div>
 
-  <div class="field">
+  <div class="field my-5">
     <%= form.label :status %>
-    <%= form.select :status , options_for_select(Constants::BUG_STATE) %>
+    <%= form.select :status, options_for_select(Constants::BUG_STATE) %>
   </div>
 
 
-  <div class="field">
-    <%= form.hidden_field :creator_id, value: current_user.id,required: true %>
-    <%= form.hidden_field :project_id, value: params[:project_id],required: true %>
+  <div class="field my-5">
+    <%= form.hidden_field :creator_id, value: current_user.id, required: true %>
+    <%= form.hidden_field :project_id, value: params[:project_id], required: true %>
   </div>
 
-  <div class="field">
+  <div class="field my-5">
     <%= image_tag(bug.screenshot, class: 'rounded-circle', size:'300x300') if bug.screenshot.attached? %>
     <%= form.label :screenshot %>
     <%= form.file_field :screenshot, accept: ".png,.gif" %>
   </div>
 
 
-  <div class="actions">
+  <div class="actions my-5">
     <%= form.submit %>
   </div>
-<% end %>
+ <% end %>
 
-<script type="text/javascript">
-  
-  document.getElementById("bug_type_of_bug").onchange= function() {
-     var status =  document.getElementById("bug_status")
-     status.remove(2)
-     option = document.createElement('option');
-
-    if (this.value==='bug') {  
-      option.setAttribute('value', "resolved");
-      option.appendChild(document.createTextNode("resolved"));
-      status.add(option);
-    } else {
-      option.setAttribute('value', "completed");
-      option.appendChild(document.createTextNode("completed"));
-      status.add(option);
-    }
-  };
-  
-</script>
 

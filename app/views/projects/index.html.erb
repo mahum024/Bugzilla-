@@ -1,49 +1,49 @@
-<h1>Projects</h1>
+<div class="SignOut text-center ">
+  <%= link_to 'Sign Out' , destroy_user_session_path, method: :delete ,class:"btn btn-danger  font-weight-bold  btn-lg" %>
+  </div>
 
-  <% if current_user.user_type == 'manager' %>
-   <div class="btn btn-danger btn-lg"> <%= link_to 'New Project', new_project_path %></div>
-  <%end%>
+    <% if current_user.user_type == 'manager' %>
+      <div class="text-center NewProject "> <%= link_to 'New Project', new_project_path ,class:"btn btn-lg btn-secondary my-5"   %></div>
+    <%end%>
 
-<table class="table ">
-  <thead>
-    <tr >
-      <th>Name of Project</th>
-      <th>Details of Project</th>
-       <% if current_user.user_type == 'manager' %>
-      <th>Edit Project</th>
-      <th>Delete Project</th>
-      <th>Add/Remove Develeoper/Qa</th>
-       <%elsif current_user.user_type == 'developer' %>
-      <th>Bugs Associated</th>
-      <%elsif current_user.user_type == 'qa' %>
-      <th>Bugs Associated</th>
-      <th>Report New Bugs</th>
-      <%end%>
-    </tr>
-  </thead>
+  <div class="ProjectIndex text-center" >
+    
+    <h1 class="text-center my-5">Projects</h1>
 
-  <tbody>
-    <% @projects.each do |project| %>
-      <tr >
-        <td><%= project.name %></td>
-        <td class="btn btn-info" ><%= link_to 'Show', project %></td>
-        
-          <% if current_user.user_type == 'manager' %>
-            <td  class="btn btn-danger mx-5"><%= link_to 'Edit', edit_project_path(project) %></td>
-            <td class="btn btn-danger mx-5"><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-            <td class="btn btn-default"><%= link_to 'Add/Remove Developer/Qa', project_add_developer_qa_path(project) %></td>
-          <% elsif  current_user.user_type == 'developer' %>
-            <td><%= link_to 'See Bugs', project_bugs_path(project) %></td>
-          <% elsif  current_user.user_type == 'qa' %>
-            <td><%= link_to 'See all bugs in project', project_bugs_path(project) %></td>
-            <td><%= link_to 'Report Bug ', new_project_bug_path(project) %></td>
-          <%end%>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <table class="text-center table table-bordered  projectTable">
+        <thead>
+          <tr >
+            <th>Project ID</th>
+            <th>Name of Project</th>
+            <th>Details of Project</th>
 
-<br>
+            <% if current_user.user_type == 'manager' %>
+              <th>Edit Project</th>
+              <th>Delete Project</th>
+              <th>Add/Remove Develeoper/Qa</th>
+            <%elsif current_user.user_type == 'developer' %>
+              <th>Bugs Associated</th>
+            <%elsif current_user.user_type == 'qa' %>
+              <th>Bugs Associated</th>
+              <th>Report New Bugs</th>
+            <%end%>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @projects.each do |project| %>
+            <tr >
+              <td ><%= project.id %></td>
+              <td ><%= project.name %></td>
+              <td ><%= link_to 'Show', project,class:"btn btn-lg btn-primary my-5" %></td>
+
+              <div id="Project-<%= project.id%>">
+                <%= index_page_links(project) %> 
+              </div>
+            </tr>
+          <% end %>
+        </tbody>
+    </table>
+</div>
 
 
-<%= link_to 'Sign Out' , destroy_user_session_path, method: :delete %>

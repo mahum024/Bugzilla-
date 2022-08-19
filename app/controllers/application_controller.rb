@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
   private
 
   def record_not_found
-    render plain: 'Not Found'
+    flash[:alert] = 'Record does not exist'
+    redirect_back(fallback_location: projects_path)
   end
 end

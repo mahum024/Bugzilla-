@@ -1,0 +1,2 @@
+$('#BugNo-<%= @bug.id %>').html("")
+$('#BugNo-<%= @bug.id %>').html("<%= escape_javascript( render partial: 'bugs/index_links' , locals: { bug: @bug } ) %>")
